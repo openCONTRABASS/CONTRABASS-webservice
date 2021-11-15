@@ -38,9 +38,15 @@ jobs:
         pip install pipdeptree==0.13.1
         pip uninstall -y celery
         pip install celery[redis]==4.4.7
-    - name: Run celery worker for tests
-      run: |
-        python -m celery -A src.restapi.celery_app.celery_app worker --loglevel=debug
+    ## THIS causes the following error:
+    ##       File "/opt/hostedtoolcache/Python/3.7.12/x64/lib/python3.7/importlib/__init__.py", line 118, in import_module
+    ##       if name.startswith('.'):
+    ##       AttributeError: 'NoneType' object has no attribute 'startswith'
+    ##       Error: Process completed with exit code 1.
+    ## Temporarily disabled
+    #- name: Run celery worker for tests
+    #  run: |
+    #    python -m celery -A src.restapi.celery_app.celery_app worker --loglevel=debug
     - name: Run Test
       run: |
         pip install pytest
