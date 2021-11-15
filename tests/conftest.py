@@ -1,8 +1,19 @@
 
 import os, sys
 import pytest
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+DOTENV_FILENAME = '.test.env'
 
 sys.path.append("..")
+
+# load dotenv that sets env variable APP_SETTINGS
+# this should be done before importing src.restapi.app:app
+# or else it will raise an error as it will not found this variable
+dotenv_path = join(dirname(__file__), DOTENV_FILENAME)
+load_dotenv(dotenv_path)
 
 from src.restapi.app import app as _app
 from src.restapi.database import db as _db
