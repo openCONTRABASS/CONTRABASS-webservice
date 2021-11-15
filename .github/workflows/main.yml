@@ -16,6 +16,13 @@ jobs:
         os: [ubuntu-latest]
         python-version: [3.7]
 
+    # message broker for celery tests
+    services:
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -27,6 +34,9 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel pipenv
         pip install -r requirements.txt
         pip install pipdeptree==0.13.1
+    - name: Run celery worker for tests
+      run: |
+        celery -A src.restapi.celery_app.celery_app worker --loglevel=debug
     - name: Run Test
       run: |
         pip install pytest
