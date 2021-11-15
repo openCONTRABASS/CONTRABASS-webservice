@@ -147,9 +147,9 @@ class TestingConfig(Config):
     SQLALCHEMY_POOL_TIMEOUT = None
 
     CELERY_IMPORTS = ("app")
-    CELERY_BROKER_URL = "redis://localhost:6379"
-    CELERY_RESULT_BACKEND = "redis://localhost:6379"
-    REDIS_BROKER_URL = "redis://localhost:6379"
+    CELERY_BROKER_URL = "redis://"
+    CELERY_RESULT_BACKEND = "redis://"
+    REDIS_BROKER_URL = "redis://"
     WEBSOCKETS_URL = "localhost:5000"
 
     UPLOAD_FOLDER = '/tmp'

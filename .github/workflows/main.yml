@@ -32,11 +32,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel pipenv
+        pip install --upgrade pip
         pip install -r requirements.txt
+        pip install hiredis
         pip install pipdeptree==0.13.1
     - name: Run celery worker for tests
       run: |
-        celery -A src.restapi.celery_app.celery_app worker --loglevel=debug
+        python -m celery -A src.restapi.celery_app.celery_app worker --loglevel=debug
     - name: Run Test
       run: |
         pip install pytest
