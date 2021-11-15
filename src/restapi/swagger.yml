@@ -1,0 +1,392 @@
+swagger: '2.0'
+info:
+  description: >-
+    REST API description
+  version: 1.0.0
+  title: CONTRABASS RESTful API
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: 718123@unizar.es
+  license:
+    name: GPLv3
+    url: 'https://www.gnu.org/licenses/gpl-3.0.html'
+host: localhost:5000
+basePath: /
+tags:
+  - name: submit
+    description: Upload models
+    externalDocs:
+      description: Example url
+      url: 'http://swagger.io'
+  - name: models
+    description: Operations to perform on models
+    externalDocs:
+      description: Example url
+      url: 'http://swagger.io'
+  - name: results
+    description: Operations results
+    externalDocs:
+      description: Example url
+      url: 'http://swagger.io'
+  - name: websockets docs
+    description: Websockets documentation
+    externalDocs:
+      description: Example url
+      url: 'http://swagger.io'
+schemes:
+  - http
+  - https
+paths:
+  '/submit':
+    post:
+      tags:
+        - submit
+      parameters:
+        - name: file
+          in: formData
+          description: file to upload
+          required: true
+          type: file
+      summary: uploads submit
+      description: ''
+      operationId: submit
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ModelId'
+        '401':
+          description: invalid operation
+          schema:
+            $ref: '#/definitions/Error'
+  '/models/{uuid}/critical_reactions':
+    post:
+      tags:
+        - models
+      summary: Init critical reactions report generation
+      description: Returns models id
+      operationId: modelsCriticalReactions
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of submit sumbited
+          required: true
+          type: string
+          format: uuid
+        - name: objective
+          in: formData
+          description: Reaction id to be used as objective
+          required: false
+          type: string
+        - name: fraction_of_optimum
+          in: formData
+          description: Fraction of optimum used in Flux Variability Analysis
+          required: false
+          type: decimal
+          maximum: 1
+          minimum: 0
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TaskInit'
+        '404':
+          description: Model not found
+          schema:
+            $ref: '#/definitions/Error'
+  '/models/{uuid}/growth_dependent_reactions':
+    post:
+      tags:
+        - models
+      summary: Init growth dependent reactions computation
+      description: Returns models id
+      operationId: models_growth_dependent_reactions
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of submit sumbited
+          required: true
+          type: string
+          format: uuid
+        - name: objective
+          in: formData
+          description: Reaction id to be used as objective
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TaskInit'
+        '404':
+          description: Model not found
+          schema:
+            $ref: '#/definitions/Error'
+  '/results/{uuid}/critical_reactions':
+    get:
+      tags:
+        - results
+      summary: Get chokepoints report file
+      description: Returns critical reactions report result
+      operationId: tasksCriticalReactions
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of chokepoints task
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ResponseReport'
+  '/results/{uuid}/terminate':
+    post:
+      tags:
+        - results
+      summary: Terminate asyncronous tasks
+      description: Terminate asyncronous tasks
+      operationId: task
+      produces:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of task
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ResponseTerminateTask'
+  '/results/{uuid}/growth_dependent_reactions':
+    get:
+      tags:
+        - results
+      summary: Get reactions report file
+      description: Returns growth dependent reactions report result
+      operationId: tasks_report_reactions
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of report task
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ResponseReport'
+  '/websockets/get_endpoint':
+    get:
+      tags:
+        - websockets docs
+      summary: Get websockets connection endpoint
+      description: Returns websocket connection endpoint
+      operationId: websockets_get_endpoint
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ResponseEndpoint'
+  '/websockets/notification_channel/{uuid}':
+    get:
+      tags:
+        - websockets docs
+      summary: Get channel identifier
+      description: Returns channel to join
+      operationId: websockets_notification_channel
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of submit
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ResponseChannel'
+  '/websockets/example_event_join':
+    get:
+      tags:
+        - websockets docs
+      summary: Get join channel event example
+      description: Returns join channel event example
+      operationId: websockets_example_event_join
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/WebsocketEvent'
+  '/websockets/example_event_message':
+    get:
+      tags:
+        - websockets docs
+      summary: Get message event example
+      description: Returns message event example
+      operationId: websockets_example_event_message
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/WebsocketEvent'
+definitions:
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  Task:
+    type: object
+    properties:
+      uuid:
+        type: string
+        format: uuid
+    xml:
+      name: Task
+  Status:
+    type: object
+    properties:
+      status:
+        type: string
+    xml:
+      name: Status
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+    xml:
+      name: Error
+  TaskInit:
+    type: object
+    properties:
+      task_id:
+        type: string
+      pending_length:
+        type: number
+    xml:
+      name: TaskInit
+  ModelId:
+    type: object
+    properties:
+      model_uuid:
+        type: string
+      metabolites:
+        type: integer
+      reactions:
+        type: integer
+      genes:
+        type: integer
+    xml:
+      name: ModelId
+  Chokepoint:
+    type: object
+    properties:
+      reaction:
+        type: string
+      metabolite:
+        type: string
+    xml:
+      name: ModelId
+  ResponseChokepoints:
+    type: object
+    properties:
+      status:
+        type: string
+      finished:
+        type: string
+      result:
+        type: array
+        items:
+          $ref: '#/definitions/Chokepoint'
+    xml:
+      name: ResponseChokepoints
+  ResponseReport:
+    type: object
+    properties:
+      status:
+        type: string
+      finished:
+        type: string
+      file_spreadsheet:
+        type: string
+      file_html:
+        type: string
+      pending_length:
+        type: number
+    xml:
+      name: ResponseReport
+  ResponseTerminateTask:
+    type: object
+    properties:
+      success:
+        type: boolean
+    xml:
+      name: ResponseTerminateTask
+  ResponseEndpoint:
+    type: object
+    properties:
+      endpoint:
+        type: string
+    xml:
+      name: ResponseEndpoint
+  ResponseChannel:
+    type: object
+    properties:
+      channel:
+        type: string
+    xml:
+      name: ResponseChannel
+  WebsocketEvent:
+    type: object
+    properties:
+      event:
+        type: string
+      message:
+        type: string
+    xml:
+      name: WebsocketEvent
+
+
+
+

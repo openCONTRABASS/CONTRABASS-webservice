@@ -1,0 +1,14 @@
+USE DATABASE CBM;
+
+SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT DeleteExpiredModels
+ON SCHEDULE EVERY 2 HOUR
+DO 
+    DELETE FROM MODELS
+    WHERE TIMESTAMPDIFF(
+        MINUTE , 
+        INSERT_TIME,
+        CURRENT_TIMESTAMP ) > 240;
+        
+       
