@@ -136,7 +136,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     '''
-    If DEBUG is set to True it seems to cause AssertionError. See:
+    If DEBUG is set to True it causes an AssertionError. See:
     - https://github.com/ga4gh/ga4gh-server/issues/791
     - https://github.com/alexmclarty/mirror/issues/6
     '''
@@ -152,7 +152,7 @@ class TestingConfig(Config):
     REDIS_BROKER_URL = "redis://localhost:6379"
     WEBSOCKETS_URL = "localhost:5000"
 
-    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER')
-    STATIC_FOLDER = os.environ.get('STATIC_FOLDER')
+    UPLOAD_FOLDER = '/tmp'
+    STATIC_FOLDER = '/tmp'
 
 
