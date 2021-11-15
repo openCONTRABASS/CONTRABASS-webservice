@@ -36,7 +36,7 @@ jobs:
         pip install -r requirements.txt
         pip install hiredis
         pip install pipdeptree==0.13.1
-        pip uninstall celery
+        pip uninstall -y celery
         pip install celery[redis]==4.4.7
     - name: Run celery worker for tests
       run: |
