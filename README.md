@@ -1,7 +1,8 @@
 
 # CONTRABASS RESTful API
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![CI-CD](https://github.com/findCP/findCP-webservice/actions/workflows/main.yml/badge.svg)](https://github.com/findCP/findCP-webservice/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=findCP_findCP-webservice&metric=alert_status)](https://sonarcloud.io/dashboard?id=findCP_findCP-webservice) [![codecov](https://codecov.io/gh/findCP/findCP-webservice/branch/main/graph/badge.svg?token=89X5LKO912)](https://codecov.io/gh/findCP/findCP-webservice)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
+[![CI-CD](https://github.com/openCONTRABASS/CONTRABASS-webservice/actions/workflows/main.yml/badge.svg)](https://github.com/openCONTRABASS/CONTRABASS-webservice/actions/workflows/main.yml)
 
 ## Table of Contents
 - [License](#license)
