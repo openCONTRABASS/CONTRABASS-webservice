@@ -29,13 +29,15 @@ from src.restapi.socket_util import send_message_client
 
 LOGGER = get_task_logger(__name__)
 
-def compute_critical_reactions(model_path, output_path, objective=None, fraction_of_optimum=None, model_uuid=None):
 
+def compute_critical_reactions(
+    model_path, output_path, objective=None, fraction_of_optimum=None, model_uuid=None
+):
     def verbose_f(text, args1=None, args2=None):
-        '''
+        """
         args1 = ws room name
         args2 = None
-        '''
+        """
         LOGGER.info(text)
         send_message_client(args1, text)
 
@@ -46,7 +48,7 @@ def compute_critical_reactions(model_path, output_path, objective=None, fraction
     config.args2 = None
     config.output_path_spreadsheet = output_path
     if output_path is not None:
-        config.output_path_html = output_path[:output_path.rfind('.')] + '.html'
+        config.output_path_html = output_path[: output_path.rfind(".")] + ".html"
     config.objective = objective
     config.fraction = fraction_of_optimum
     config.processes = 1
@@ -60,13 +62,15 @@ def compute_critical_reactions(model_path, output_path, objective=None, fraction
     _, filename2 = ntpath.split(config.output_path_spreadsheet)
     return (filename1, filename2)
 
-def compute_growth_dependent_reactions(model_path, output_path, objective=None, model_uuid=None):
 
+def compute_growth_dependent_reactions(
+    model_path, output_path, objective=None, model_uuid=None
+):
     def verbose_f(text, args1=None, args2=None):
-        '''
+        """
         args1 = ws room name
         args2 = None
-        '''
+        """
         LOGGER.info(text)
         send_message_client(args1, text)
 
@@ -77,7 +81,7 @@ def compute_growth_dependent_reactions(model_path, output_path, objective=None, 
     config.args2 = None
     config.output_path_spreadsheet = output_path
     if output_path is not None:
-        config.output_path_html = output_path[:output_path.rfind('.')] + '.html'
+        config.output_path_html = output_path[: output_path.rfind(".")] + ".html"
     config.objective = objective
     config.processes = 1
 
@@ -87,4 +91,3 @@ def compute_growth_dependent_reactions(model_path, output_path, objective=None, 
     _, filename1 = ntpath.split(config.output_path_html)
     _, filename2 = ntpath.split(config.output_path_spreadsheet)
     return (filename1, filename2)
-

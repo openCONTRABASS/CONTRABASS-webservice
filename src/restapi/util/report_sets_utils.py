@@ -52,13 +52,13 @@ def read_config_model(model_path, config):
 
     return model
 
-def generate_sets_report(model_path, output_path, model_uuid, config):
 
+def generate_sets_report(model_path, output_path, model_uuid, config):
     def verbose_f(text, args1=None, args2=None):
-        '''
+        """
         args1 = room name
         args2 = None
-        '''
+        """
         LOGGER.info(text)
         send_message_client(args1, text)
 
@@ -67,7 +67,7 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
     if config.fraction_of_optimum is not None:
         fraction_of_optimum = config.fraction_of_optimum
 
-    MODEL   = model_path
+    MODEL = model_path
 
     # compute essential reactions
     verbose_f("Computing essential reactions", model_uuid)
@@ -109,10 +109,13 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
     book = s.get_workbook()
     info = book.add_sheet("submit info")
     s.spreadsheet_write_reactions(state, "reactions", ordered=True)
-    s.spreadsheet_write_metabolites(state, "metabolites", ordered=True, print_reactions=True)
+    s.spreadsheet_write_metabolites(
+        state, "metabolites", ordered=True, print_reactions=True
+    )
 
-
-    chokepoints = set([r.reaction.id for r in cpmodel.find_chokepoints(exclude_dead_reactions=True)])
+    chokepoints = set(
+        [r.reaction.id for r in cpmodel.find_chokepoints(exclude_dead_reactions=True)]
+    )
     model = cpmodel.model()
 
     # FBA
@@ -154,12 +157,17 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
     MGR = alive_flux(model, sol_fba)
     if config.optimization == OptimizationEnum.FBA:
         verbose_f("Computing Flux Variability Analysis", model_uuid)
-        fba_fva = flux_variability_analysis(model, processes=PROCESSES,
-                                            fraction_of_optimum=fraction_of_optimum)
+        fba_fva = flux_variability_analysis(
+            model, processes=PROCESSES, fraction_of_optimum=fraction_of_optimum
+        )
     elif config.optimization == OptimizationEnum.pFBA:
         verbose_f("Computing parsimonious Flux Variability Analysis", model_uuid)
-        fba_fva = flux_variability_analysis(model, pfba_factor = 1.0, processes=PROCESSES,
-                                            fraction_of_optimum=fraction_of_optimum)
+        fba_fva = flux_variability_analysis(
+            model,
+            pfba_factor=1.0,
+            processes=PROCESSES,
+            fraction_of_optimum=fraction_of_optimum,
+        )
     else:
         pass
 
@@ -168,26 +176,25 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
 
     verbose_f("Computing suboptimal Flux Variability Analysis", model_uuid)
     cpmodel = read_config_model(MODEL, config)
-    cpmodel.fva(update_flux = True, threshold=0.0)
+    cpmodel.fva(update_flux=True, threshold=0.0)
     DR_0 = set([r.id for r in cpmodel.dead_reactions()])
     cpmodel.find_chokepoints(exclude_dead_reactions=True)
     CP_0 = set([r.id for r, m in cpmodel.chokepoints()])
 
     verbose_f("Computing optimal Flux Variability Analysis", model_uuid)
     cpmodel = read_config_model(MODEL, config)
-    cpmodel.fva(update_flux = True, threshold=1.0)
+    cpmodel.fva(update_flux=True, threshold=1.0)
     DR_1 = set([r.id for r in cpmodel.dead_reactions()])
     cpmodel.find_chokepoints(exclude_dead_reactions=True)
     CP_1 = set([r.id for r, m in cpmodel.chokepoints()])
 
     verbose_f("Computing suboptimal Flux Variability Analysis", model_uuid)
     cpmodel = read_config_model(MODEL, config)
-    cpmodel.fva(update_flux = True, threshold=0.9)
+    cpmodel.fva(update_flux=True, threshold=0.9)
     DR_09 = set([r.id for r in cpmodel.dead_reactions()])
 
     cpmodel = read_config_model(MODEL, config)
     model = cpmodel.model()
-
 
     info.write(0, 0, "MODEL ID")
     info.write(0, 1, model.id)
@@ -235,7 +242,9 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
             knock_reaction.upper_bound = float(0.0)
             knock_reaction.lower_bound = float(0.0)
 
-            verbose_f("Computing results for reaction: " + knock_reaction.id, model_uuid)
+            verbose_f(
+                "Computing results for reaction: " + knock_reaction.id, model_uuid
+            )
 
             aux_sol = 0
             if config.optimization == OptimizationEnum.FBA:
@@ -249,18 +258,26 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
 
             if not config.skip_knockout_computation:
                 if config.optimization == OptimizationEnum.FBA:
-                    prima_fva_sol = flux_variability_analysis(model, processes=PROCESSES,
-                                                              fraction_of_optimum=fraction_of_optimum)
+                    prima_fva_sol = flux_variability_analysis(
+                        model,
+                        processes=PROCESSES,
+                        fraction_of_optimum=fraction_of_optimum,
+                    )
                 elif config.optimization == OptimizationEnum.pFBA:
-                    prima_fva_sol = flux_variability_analysis(model, pfba_factor = 1.0, processes=PROCESSES,
-                                                              fraction_of_optimum=fraction_of_optimum)
+                    prima_fva_sol = flux_variability_analysis(
+                        model,
+                        pfba_factor=1.0,
+                        processes=PROCESSES,
+                        fraction_of_optimum=fraction_of_optimum,
+                    )
                 else:
                     pass
 
                 NR_PLUS_RR_prima = alive_reactions(model, prima_fva_sol)
-                DR_prima = set([r.id for r in model.reactions]).difference(set(NR_PLUS_RR_prima))
+                DR_prima = set([r.id for r in model.reactions]).difference(
+                    set(NR_PLUS_RR_prima)
+                )
                 Y = DR_prima.difference(DR_1)
-
 
             if r in chokepoints:
                 is_choke = "TRUE"
@@ -316,7 +333,10 @@ def generate_sets_report(model_path, output_path, model_uuid, config):
             i = counters[sheet]
 
             if not config.skip_knockout_computation:
-                cell_X = "{}: {}".format(len(set(MGR_prima).intersection(DR_1)), str(set(MGR_prima).intersection(DR_1)))
+                cell_X = "{}: {}".format(
+                    len(set(MGR_prima).intersection(DR_1)),
+                    str(set(MGR_prima).intersection(DR_1)),
+                )
                 cell_Y = "{}: {}".format(len(Y), str(Y))
             else:
                 cell_X = " "

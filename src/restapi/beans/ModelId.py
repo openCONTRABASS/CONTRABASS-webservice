@@ -1,6 +1,4 @@
-
 class ModelId:
-
     def __init__(self, model, metabolites, reactions, genes):
         self.model_uuid = model
         self.metabolites = metabolites

@@ -1,7 +1,4 @@
-
-
 class Chokepoint:
-
     def __init__(self, reaction, metabolite):
         self.__reaction = reaction
         self.__metabolite = metabolite

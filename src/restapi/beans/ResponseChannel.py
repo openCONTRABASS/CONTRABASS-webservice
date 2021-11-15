@@ -2,7 +2,6 @@ from json import JSONEncoder
 
 
 class ResponseChannel:
-
     def __init__(self, channel=None):
         self.channel = channel
 
@@ -13,6 +12,7 @@ class ResponseChannel:
     @channel_attr.setter
     def channel_attr(self, channel):
         self.channel = channel
+
 
 class ResponseChannelEncoder(JSONEncoder):
     def default(self, o):

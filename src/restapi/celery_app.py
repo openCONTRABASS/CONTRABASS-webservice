@@ -22,14 +22,14 @@ import itertools
 from dotenv import load_dotenv
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, '../../.env'))
+load_dotenv(os.path.join(basedir, "../../.env"))
 
 from celery import Celery
 
 
 celery_app = Celery(
-    broker=os.environ.get('CELERY_BROKER_URL'),
-    backend=os.environ.get('CELERY_RESULT_BACKEND'),
+    broker=os.environ.get("CELERY_BROKER_URL"),
+    backend=os.environ.get("CELERY_RESULT_BACKEND"),
 )
 
 celery_app.conf.update(
@@ -40,11 +40,12 @@ celery_app.conf.update(
     result_expires=7200,  # 2 hours
     # Always restart workers after finishing.
     worker_max_tasks_per_child=1,
-    task_serializer='pickle',
-    result_serializer='pickle',
-    accept_content=['pickle'],
-    imports = (os.environ.get('CELERY_IMPORTS'),)
+    task_serializer="pickle",
+    result_serializer="pickle",
+    accept_content=["pickle"],
+    imports=(os.environ.get("CELERY_IMPORTS"),),
 )
+
 
 def get_pending_tasks_length():
     i = celery_app.control.inspect()
@@ -53,6 +54,7 @@ def get_pending_tasks_length():
     else:
         len_tasks = len(list(itertools.chain.from_iterable(i.reserved().values())))
         return len_tasks
+
 
 def get_task_pending_position(task_uuid):
     i = celery_app.control.inspect()

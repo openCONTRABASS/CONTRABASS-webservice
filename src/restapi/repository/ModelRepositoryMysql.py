@@ -8,39 +8,44 @@ from restapi.database import connection
 
 LOGGER = logging.getLogger(__name__)
 
-INSERT_MODEL = 'INSERT INTO MODELS (UUID, URL) VALUES (% s, % s)'
-QUERY_MODEL = 'SELECT * FROM MODELS WHERE uuid = % s'
+INSERT_MODEL = "INSERT INTO MODELS (UUID, URL) VALUES (% s, % s)"
+QUERY_MODEL = "SELECT * FROM MODELS WHERE uuid = % s"
+
 
 class ModelRepository:
-
     def log_insert(self, query, args):
         query_log = query
         for par in list(args):
-            query_log = query_log.replace('% s', par, 1)
+            query_log = query_log.replace("% s", par, 1)
         LOGGER.info(query_log)
         with connection.cursor() as cursor:
             print("Done cursor")
-            cursor.execute(query,
-                           args)
+            cursor.execute(query, args)
             print("Done execute")
             # Disabled to avoid: pymysql.err.Error: Already closed
-            #connection.commit()
+            # connection.commit()
 
     def log_query_one(self, query, args):
         query_log = query
         for par in list(args):
-            query_log = query_log.replace('% s', par, 1)
+            query_log = query_log.replace("% s", par, 1)
         LOGGER.info(query_log)
         with connection.cursor() as cursor:
             cursor.execute(query, args)
             result = cursor.fetchone()
             # Disabled to avoid: pymysql.err.Error: Already closed
-            #cursor.close()
+            # cursor.close()
             return result
         return None
 
     def insert(self, uuid, url):
-        self.log_insert(INSERT_MODEL, (uuid, url,))
+        self.log_insert(
+            INSERT_MODEL,
+            (
+                uuid,
+                url,
+            ),
+        )
 
     def query_by_uuid(self, uuid):
         uuid = str(uuid)
@@ -51,5 +56,5 @@ class ModelRepository:
         model.url = result["URL"]
         return model
 
-    #def query(self):
+    # def query(self):
     #    return Model.objects.all()

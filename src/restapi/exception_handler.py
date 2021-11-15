@@ -32,37 +32,42 @@ def init_exception_handler(app):
     app.register_error_handler(InvalidException, handle_invalid_exception)
     app.register_error_handler(Exception, handle_exception)
 
+
 def handle_duplicate_exception(error):
     LOGGER.info(error)
     LOGGER.info("Response : 409")
-    response = jsonify({'message': "Value already exists"})
+    response = jsonify({"message": "Value already exists"})
     response.status_code = 409
     return response
+
 
 def handle_validation_exception(error):
     LOGGER.info(error)
     LOGGER.info("Response : 400")
-    response = jsonify({'message': str(error)})
+    response = jsonify({"message": str(error)})
     response.status_code = 400
     return response
+
 
 def handle_not_found_exception(error):
     LOGGER.info(error)
     LOGGER.info("Response : 404")
-    response = jsonify({'message': "Not found"})
+    response = jsonify({"message": "Not found"})
     response.status_code = 404
     return response
+
 
 def handle_exception(error):
     LOGGER.error(traceback.format_exc())
     LOGGER.info("Response : 500")
-    response = jsonify({'message': "Internal server error"})
+    response = jsonify({"message": "Internal server error"})
     response.status_code = 500
     return response
+
 
 def handle_invalid_exception(error):
     LOGGER.info(error)
     LOGGER.info("Response : 401")
-    response = jsonify({'message': str(error)})
+    response = jsonify({"message": str(error)})
     response.status_code = 401
     return response

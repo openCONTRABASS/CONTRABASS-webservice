@@ -1,7 +1,7 @@
 from json import JSONEncoder
 
-class WebsocketEvent:
 
+class WebsocketEvent:
     def __init__(self, event, message):
         self.event = event
         self.message = message
@@ -21,6 +21,7 @@ class WebsocketEvent:
     @message_attr.setter
     def message_attr(self, message):
         self.message = message
+
 
 class ResponseWebsocketEventEncoder(JSONEncoder):
     def default(self, o):

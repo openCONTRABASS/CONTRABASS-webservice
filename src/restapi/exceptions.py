@@ -16,17 +16,21 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+
 class ValidationException(Exception):
     def __init__(self, message):
         super().__init__(message)
+
 
 class DuplicateException(Exception):
     def __init__(self):
         super().__init__()
 
+
 class NotFoundException(Exception):
     def __init__(self):
         super().__init__()
+
 
 class InvalidException(Exception):
     def __init__(self, message):

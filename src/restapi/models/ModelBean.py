@@ -1,7 +1,4 @@
-
-
 class Model:
-
     def __init__(self, uuid=None, url=None):
         self.__uuid = uuid
         self.__url = url
@@ -21,4 +18,3 @@ class Model:
     @url.setter
     def url(self, url):
         self.__url = url
-

@@ -26,7 +26,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ModelRepository:
-
     def insert(self, uuid, url):
         LOGGER.info(f"Saving Models(uuid={uuid}, url={url})")
         models = Models(uuid=uuid, url=url)

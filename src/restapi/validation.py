@@ -20,9 +20,9 @@ from .constants import *
 from .exceptions import *
 import re
 
+
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def sanitize_string(string):
@@ -32,4 +32,4 @@ def sanitize_string(string):
 
 
 def empty_string(string):
-    return string is None or string == ''
+    return string is None or string == ""

@@ -23,7 +23,11 @@ import itertools
 from flask import Blueprint, jsonify
 from celery.result import AsyncResult
 
-from src.restapi.celery_app import celery_app, get_pending_tasks_length, get_task_pending_position
+from src.restapi.celery_app import (
+    celery_app,
+    get_pending_tasks_length,
+    get_task_pending_position,
+)
 
 from src.restapi.service.ModelService import ModelService
 from src.restapi.beans.ResponseChokepoints import *
@@ -33,17 +37,20 @@ from src.restapi.exceptions import InvalidException
 from src.restapi.constants import RESPONSE_TASK_NONE
 
 
-results_bp = Blueprint('results_bp', __name__,
-                     template_folder='templates',
-                     static_folder='static',
-                     static_url_path='assets')
+results_bp = Blueprint(
+    "results_bp",
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+    static_url_path="assets",
+)
 
 LOGGER = logging.getLogger(__name__)
 
 model_service = ModelService()
 
 # Temporarily disabled
-#@results_bp.route('/results/<uuid:uuid>/chokepoints', methods=['GET'])
+# @results_bp.route('/results/<uuid:uuid>/chokepoints', methods=['GET'])
 def get_chokepoints(uuid):
 
     LOGGER.info(f"GET /results/{uuid}/chokepoints")
@@ -68,7 +75,8 @@ def get_chokepoints(uuid):
     LOGGER.info(f"Response: {response}")
     return response
 
-@results_bp.route('/results/<uuid:uuid>/critical_reactions', methods=['GET'])
+
+@results_bp.route("/results/<uuid:uuid>/critical_reactions", methods=["GET"])
 def get_critical_reactions(uuid):
 
     LOGGER.info(f"GET /results/{uuid}/critical_reactions")
@@ -96,7 +104,8 @@ def get_critical_reactions(uuid):
     LOGGER.info(f"Response: {response}")
     return response
 
-@results_bp.route('/results/<uuid:uuid>/growth_dependent_reactions', methods=['GET'])
+
+@results_bp.route("/results/<uuid:uuid>/growth_dependent_reactions", methods=["GET"])
 def get_growth_dependent_reactions(uuid):
 
     LOGGER.info(f"GET /results/{uuid}/growth_dependent_reactions")
@@ -124,8 +133,9 @@ def get_growth_dependent_reactions(uuid):
     LOGGER.info(f"Response: {response}")
     return response
 
+
 # Temporarily disabled
-#@results_bp.route('/models/<uuid:uuid>/report_reactions', methods=['GET'])
+# @results_bp.route('/models/<uuid:uuid>/report_reactions', methods=['GET'])
 def get_report_reactions(uuid):
 
     LOGGER.info(f"GET /models/{uuid}/report_reactions")
@@ -150,8 +160,9 @@ def get_report_reactions(uuid):
     LOGGER.info(f"Response: {response}")
     return response
 
+
 # Terminate a running task
-@results_bp.route('/results/<uuid:uuid>/terminate', methods=['POST'])
+@results_bp.route("/results/<uuid:uuid>/terminate", methods=["POST"])
 def terminate_task(uuid):
 
     LOGGER.info(f"POST /results/{uuid}/terminate ")
@@ -160,8 +171,7 @@ def terminate_task(uuid):
     result = ResponseReport()
 
     async_result = AsyncResult(id=str(uuid), app=celery_app)
-    async_result.revoke(signal='SIGKILL')
+    async_result.revoke(signal="SIGKILL")
 
     LOGGER.info(f"Response: 'success':True 200")
-    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-
+    return json.dumps({"success": True}), 200, {"ContentType": "application/json"}

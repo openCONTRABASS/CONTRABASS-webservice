@@ -3,6 +3,11 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
 [![CI-CD](https://github.com/openCONTRABASS/CONTRABASS-webservice/actions/workflows/main.yml/badge.svg)](https://github.com/openCONTRABASS/CONTRABASS-webservice/actions/workflows/main.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=openCONTRABASS_CONTRABASS-webservice&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=openCONTRABASS_CONTRABASS-webservice)
+[![codecov](https://codecov.io/gh/openCONTRABASS/CONTRABASS-webservice/branch/main/graph/badge.svg?token=T1S7E99XJJ)](https://codecov.io/gh/openCONTRABASS/CONTRABASS-webservice)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
+
+```CONTRABASS RESTful API``` is a python-based asynchronous-tasks RESTful API intended for the computation and analysis of vulnerabilities in genome-scale metabolic models. These webservices are just a backed for [CONTRABASS python tool](https://github.com/openCONTRABASS/CONTRABASS). 
 
 ## Table of Contents
 - [License](#license)

@@ -1,7 +1,4 @@
-
-
 class TaskInit:
-
     def __init__(self, task_id, pending_length=None):
         self.task_id = task_id
         self.pending_length = pending_length

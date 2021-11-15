@@ -26,7 +26,7 @@ CONST_EPSILON = 0.000005
 def read_model(path):
     try:
         # check if file exists
-        open(path, 'r')
+        open(path, "r")
         # read submit
         if path[-4:] == ".xml":
             cobra_model = cobra.io.read_sbml_model(path)
@@ -41,13 +41,14 @@ def read_model(path):
 
     return cobra_model
 
-def compute_chokepoints(mdoel_path, exclude_dead_reations = True):
+
+def compute_chokepoints(mdoel_path, exclude_dead_reations=True):
     cpmodel = CobraMetabolicModel(mdoel_path)
     cpmodel.find_chokepoints(exclude_dead_reactions=exclude_dead_reations)
     return [(r.id, m.id) for r, m in cpmodel.chokepoints()]
 
 
-def in_range_zero(up , low):
+def in_range_zero(up, low):
     return up + CONST_EPSILON >= 0 and low - CONST_EPSILON <= 0
 
 
@@ -74,7 +75,10 @@ def alive_reactions(cobra_model, fva_solution):
 
 
 def reaction_reversible(reaction):
-    return reaction.upper_bound > CONST_EPSILON and abs(reaction.lower_bound) > CONST_EPSILON
+    return (
+        reaction.upper_bound > CONST_EPSILON
+        and abs(reaction.lower_bound) > CONST_EPSILON
+    )
 
 
 def reversible_alive_flux(cobra_model, cobra_summary):

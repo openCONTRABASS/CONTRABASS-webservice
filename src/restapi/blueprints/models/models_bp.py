@@ -21,8 +21,11 @@ import os
 
 from flask import Blueprint, jsonify, current_app, request
 
-from src.restapi.tasks.tasks import compute_chokepoints_task, task_compute_critical_reactions, \
-    task_compute_growth_dependent_reactions
+from src.restapi.tasks.tasks import (
+    compute_chokepoints_task,
+    task_compute_critical_reactions,
+    task_compute_growth_dependent_reactions,
+)
 from src.restapi.celery_app import celery_app, get_pending_tasks_length
 
 from src.restapi.service.ModelService import ModelService
@@ -35,17 +38,20 @@ from src.restapi.beans.MediumEnum import MediumEnum
 from src.restapi.validation import sanitize_string, empty_string
 
 
-models_bp = Blueprint('models_bp', __name__,
-                      template_folder='templates',
-                      static_folder='static',
-                      static_url_path='assets')
+models_bp = Blueprint(
+    "models_bp",
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+    static_url_path="assets",
+)
 
 LOGGER = logging.getLogger(__name__)
 
 model_service = ModelService()
 
 # Temporarily disabled
-#@models_bp.route('/models/<uuid:uuid>/chokepoints', methods=['POST'])
+# @models_bp.route('/models/<uuid:uuid>/chokepoints', methods=['POST'])
 def compute_chokepoints(uuid):
 
     LOGGER.info(f"POST /models/{uuid}/chokepoints")
@@ -53,7 +59,7 @@ def compute_chokepoints(uuid):
     sanitize_string(str(uuid))
 
     filename = model_service.query_by_uuid(uuid).url
-    path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
 
     task = compute_chokepoints_task.delay(path)
     task_uuid = task.id
@@ -63,7 +69,7 @@ def compute_chokepoints(uuid):
     return response
 
 
-@models_bp.route('/models/<uuid:uuid>/critical_reactions', methods=['POST'])
+@models_bp.route("/models/<uuid:uuid>/critical_reactions", methods=["POST"])
 def compute_critical_reactions(uuid):
 
     request_data = request.form
@@ -86,17 +92,17 @@ def compute_critical_reactions(uuid):
         fraction_of_optimum = float(form.fraction_of_optimum.data)
 
     filename = model_service.query_by_uuid(uuid).url
-    pathname = current_app.config['UPLOAD_FOLDER']
+    pathname = current_app.config["UPLOAD_FOLDER"]
     path = os.path.join(pathname, filename)
-    output_dir = current_app.config['STATIC_FOLDER']
-    output_filename = str(uuid) + current_app.config['OUTPUT_FILE_EXTENSION']
+    output_dir = current_app.config["STATIC_FOLDER"]
+    output_filename = str(uuid) + current_app.config["OUTPUT_FILE_EXTENSION"]
 
     task = task_compute_critical_reactions.delay(
         path,  # model path
         output_dir + "/" + output_filename,  # output path
         objective=objective,
         fraction_of_optimum=fraction_of_optimum,
-        model_uuid=str(uuid)
+        model_uuid=str(uuid),
     )
     task_uuid = task.id
 
@@ -104,7 +110,8 @@ def compute_critical_reactions(uuid):
     LOGGER.info(f"Response: {response}")
     return response
 
-@models_bp.route('/models/<uuid:uuid>/growth_dependent_reactions', methods=['POST'])
+
+@models_bp.route("/models/<uuid:uuid>/growth_dependent_reactions", methods=["POST"])
 def compute_growth_dependent_reactions(uuid):
 
     request_data = request.form
@@ -123,24 +130,23 @@ def compute_growth_dependent_reactions(uuid):
         objective = str(form.objective.data)
 
     filename = model_service.query_by_uuid(uuid).url
-    pathname = current_app.config['UPLOAD_FOLDER']
+    pathname = current_app.config["UPLOAD_FOLDER"]
     path = os.path.join(pathname, filename)
-    output_dir = current_app.config['STATIC_FOLDER']
-    output_filename = str(uuid) + current_app.config['OUTPUT_FILE_EXTENSION']
+    output_dir = current_app.config["STATIC_FOLDER"]
+    output_filename = str(uuid) + current_app.config["OUTPUT_FILE_EXTENSION"]
 
     task = task_compute_growth_dependent_reactions.delay(
-        path,
-        output_dir + "/" + output_filename,  # output path
-        objective,
-        str(uuid))
+        path, output_dir + "/" + output_filename, objective, str(uuid)  # output path
+    )
     task_uuid = task.id
 
     response = jsonify(vars(TaskInit(task_uuid, get_pending_tasks_length())))
     LOGGER.info(f"Response: {response}")
     return response
 
+
 # Temporarily disabled
-#@models_bp.route('/models/<uuid:uuid>/report_reactions', methods=['POST'])
+# @models_bp.route('/models/<uuid:uuid>/report_reactions', methods=['POST'])
 def compute_report_reactions(uuid):
 
     request_data = request.form
@@ -171,10 +177,10 @@ def compute_report_reactions(uuid):
         skip_knockout = bool(form.skip_knockout.data)
 
     filename = model_service.query_by_uuid(uuid).url
-    pathname = current_app.config['UPLOAD_FOLDER']
+    pathname = current_app.config["UPLOAD_FOLDER"]
     path = os.path.join(pathname, filename)
-    output_dir = current_app.config['STATIC_FOLDER']
-    output_filename = str(uuid) + current_app.config['OUTPUT_FILE_EXTENSION']
+    output_dir = current_app.config["STATIC_FOLDER"]
+    output_filename = str(uuid) + current_app.config["OUTPUT_FILE_EXTENSION"]
 
     config = ConfigReactionsSets()
     config.fraction_of_optimum = fraction_of_optimum
@@ -183,7 +189,9 @@ def compute_report_reactions(uuid):
     config.optimization = optimization
     config.skip_knockout_computation = skip_knockout
 
-    task = compute_sets_report_task.delay(path, output_dir, output_filename, str(uuid), config)
+    task = compute_sets_report_task.delay(
+        path, output_dir, output_filename, str(uuid), config
+    )
     task_uuid = task.id
 
     response = jsonify(vars(TaskInit(task_uuid, get_pending_tasks_length())))

@@ -2,7 +2,6 @@ from json import JSONEncoder
 
 
 class ResponseChokepoints:
-
     def __init__(self, status=None, finished=None, result=None, pending_length=None):
         self.__status = status
         self.__finished = finished
@@ -40,6 +39,7 @@ class ResponseChokepoints:
     @pending_length.setter
     def pending_length(self, pending_length):
         self.__pending_length = pending_length
+
 
 class ResponseChokepointsEncoder(JSONEncoder):
     def default(self, o):

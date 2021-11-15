@@ -27,15 +27,30 @@ from src.restapi.util.report_sets_utils import *
 def compute_chokepoints_task(model_path, exclude_dead_reactions=True):
     return compute_chokepoints(model_path, exclude_dead_reactions)
 
+
 @celery_app.task
-def compute_sets_report_task(model_path, output_path, output_filename, model_uuid, config):
-    generate_sets_report(model_path, output_path + "/" + output_filename, model_uuid, config)
+def compute_sets_report_task(
+    model_path, output_path, output_filename, model_uuid, config
+):
+    generate_sets_report(
+        model_path, output_path + "/" + output_filename, model_uuid, config
+    )
     return output_filename
 
-@celery_app.task
-def task_compute_critical_reactions(model_path, output_path, objective=None, fraction_of_optimum=None, model_uuid=None):
-    return compute_critical_reactions(model_path, output_path, objective, fraction_of_optimum, model_uuid)
 
 @celery_app.task
-def task_compute_growth_dependent_reactions(model_path, output_path, objective=None, model_uuid=None):
-    return compute_growth_dependent_reactions(model_path, output_path, objective, model_uuid)
+def task_compute_critical_reactions(
+    model_path, output_path, objective=None, fraction_of_optimum=None, model_uuid=None
+):
+    return compute_critical_reactions(
+        model_path, output_path, objective, fraction_of_optimum, model_uuid
+    )
+
+
+@celery_app.task
+def task_compute_growth_dependent_reactions(
+    model_path, output_path, objective=None, model_uuid=None
+):
+    return compute_growth_dependent_reactions(
+        model_path, output_path, objective, model_uuid
+    )

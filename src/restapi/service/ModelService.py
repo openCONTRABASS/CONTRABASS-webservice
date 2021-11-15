@@ -16,8 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-#from src.restapi.repository.ModelRepositoryMongo import ModelRepository
+# from src.restapi.repository.ModelRepositoryMongo import ModelRepository
 from src.restapi.repository.ModelRepositoryMysqlAlchemy import ModelRepository
+
 
 class ModelService:
     model_repository = ModelRepository()

@@ -1,6 +1,4 @@
-
 class ConfigReactionsSets:
-
     def __init__(self):
         self.__objective = None
         self.__fraction_of_optimum = None

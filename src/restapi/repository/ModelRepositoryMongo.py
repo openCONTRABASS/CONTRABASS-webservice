@@ -10,14 +10,12 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ModelRepository:
-
     def insert(self, uuid, url):
         try:
             LOGGER.info(f"Saving Model(uuid={uuid}, url={url})")
             Model(uuid=uuid, url=url).save()
         except (NotUniqueError, DuplicateKeyError) as err:
             raise DuplicateException()
-
 
     def query_by_uuid(self, uuid):
         LOGGER.info(f"Quering Model(uuid={uuid})")

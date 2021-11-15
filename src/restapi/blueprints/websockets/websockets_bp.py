@@ -28,27 +28,32 @@ from src.restapi.exceptions import *
 from src.restapi.constants import *
 from src.restapi.validation import *
 
-websockets_bp = Blueprint('websockets_bp', __name__,
-                     template_folder='templates',
-                     static_folder='static',
-                     static_url_path='assets')
+websockets_bp = Blueprint(
+    "websockets_bp",
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+    static_url_path="assets",
+)
 
 LOGGER = logging.getLogger(__name__)
 
 model_service = ModelService()
 
-@websockets_bp.route('/websockets/get_endpoint', methods=['GET'])
+
+@websockets_bp.route("/websockets/get_endpoint", methods=["GET"])
 def get_endpoint():
 
     LOGGER.info(f"GET /websockets/get_endpoint")
 
-    result = ResponseEndpoint(current_app.config['WEBSOCKETS_URL'])
+    result = ResponseEndpoint(current_app.config["WEBSOCKETS_URL"])
 
     response = jsonify(vars(result))
     LOGGER.info(f"Response: {response}")
     return response
 
-@websockets_bp.route('/websockets/notification_channel/<uuid:uuid>', methods=['GET'])
+
+@websockets_bp.route("/websockets/notification_channel/<uuid:uuid>", methods=["GET"])
 def get_notification_channel(uuid):
 
     LOGGER.info(f"GET /websockets/notification_channel/{uuid}")
@@ -65,7 +70,8 @@ def get_notification_channel(uuid):
     LOGGER.info(f"Response: {response}")
     return response
 
-@websockets_bp.route('/websockets/example_event_join', methods=['GET'])
+
+@websockets_bp.route("/websockets/example_event_join", methods=["GET"])
 def get_example_join_event():
 
     LOGGER.info(f"GET /websockets/example_event_join")
@@ -76,12 +82,15 @@ def get_example_join_event():
     LOGGER.info(f"Response: {response}")
     return response
 
-@websockets_bp.route('/websockets/example_event_message', methods=['GET'])
+
+@websockets_bp.route("/websockets/example_event_message", methods=["GET"])
 def get_example_event_message():
 
     LOGGER.info(f"GET /websockets/example_event_message")
 
-    result = WebsocketEvent("00000000-0000-0000-0000-000000000000", "<<message-content>>")
+    result = WebsocketEvent(
+        "00000000-0000-0000-0000-000000000000", "<<message-content>>"
+    )
 
     response = jsonify(vars(result))
     LOGGER.info(f"Response: {response}")
