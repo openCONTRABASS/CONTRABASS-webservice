@@ -81,6 +81,12 @@ app.config["SWAGGER"] = {"title": "CONTRABASS API", "uiversion": 3}
 Swagger(app, template_file="swagger.yml")
 LOGGER.info("Successfully init Swagger")
 
+# Enable CORS on blueprints
+CORS(submit_bp)
+CORS(models_bp)
+CORS(results_bp)
+CORS(websockets_bp)
+
 # Register blueprints
 app.register_blueprint(submit_bp, url_prefix="/")
 app.register_blueprint(models_bp, url_prefix="/")

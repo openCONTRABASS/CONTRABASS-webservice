@@ -5,9 +5,12 @@
 [![CI-CD](https://github.com/openCONTRABASS/CONTRABASS-webservice/actions/workflows/main.yml/badge.svg)](https://github.com/openCONTRABASS/CONTRABASS-webservice/actions/workflows/main.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=openCONTRABASS_CONTRABASS-webservice&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=openCONTRABASS_CONTRABASS-webservice)
 [![codecov](https://codecov.io/gh/openCONTRABASS/CONTRABASS-webservice/branch/main/graph/badge.svg?token=T1S7E99XJJ)](https://codecov.io/gh/openCONTRABASS/CONTRABASS-webservice)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![DOI](https://zenodo.org/badge/428321461.svg)](https://zenodo.org/badge/latestdoi/428321461)
 
-```CONTRABASS RESTful API``` is a python-based asynchronous-tasks RESTful API intended for the computation and analysis of vulnerabilities in genome-scale metabolic models. These webservices are just a backed for [CONTRABASS python tool](https://github.com/openCONTRABASS/CONTRABASS). 
+
+
+```CONTRABASS RESTful API``` is a python asynchronous-tasks-based RESTful API intended for the computation and analysis of vulnerabilities in genome-scale metabolic models. These webservices are just a backend of [CONTRABASS python tool](https://github.com/openCONTRABASS/CONTRABASS). 
 
 ## Table of Contents
 - [License](#license)
