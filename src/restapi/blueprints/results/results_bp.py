@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-
+import json
 import logging
 import traceback
 import itertools
@@ -171,7 +171,7 @@ def terminate_task(uuid):
     result = ResponseReport()
 
     async_result = AsyncResult(id=str(uuid), app=celery_app)
-    async_result.revoke(signal="SIGKILL")
+    async_result.revoke(signal="SIGKILL", terminate=True)
 
     LOGGER.info(f"Response: 'success':True 200")
     return json.dumps({"success": True}), 200, {"ContentType": "application/json"}
