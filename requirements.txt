@@ -19,4 +19,5 @@ python-dotenv
 python-engineio==4.2.1
 python-socketio==5.4.0
 future
+requests
 contrabass
