@@ -42,6 +42,18 @@ class Config(object):
                 "format": ("%(asctime)s [%(levelname)s] [%(name)s] | %(message)s")
             },
         },
+        "handlers": {
+            "console": {
+                "level": "DEBUG",
+                "class": "logging.StreamHandler",
+                "formatter": "simple",
+            },
+        },
+        "root": {
+            "level": "INFO",
+            "handlers": ["console"],
+            "propagate": True,
+        },
     }
 
 

@@ -1,9 +1,10 @@
 class ModelId:
-    def __init__(self, model, metabolites, reactions, genes):
+    def __init__(self, model, metabolites, reactions, genes, reactions_list):
         self.model_uuid = model
         self.metabolites = metabolites
         self.reactions = reactions
         self.genes = genes
+        self.reactions_list = reactions_list
 
     @property
     def get_model_uuid(self):
@@ -36,3 +37,11 @@ class ModelId:
     @get_genes.setter
     def set_genes(self, genes):
         self.genes = genes
+
+    @property
+    def get_reactions_list(self):
+        return self.reactions_list
+
+    @get_reactions_list.setter
+    def set_reactions_list(self, reactions_list):
+        self.reactions_list = reactions_list

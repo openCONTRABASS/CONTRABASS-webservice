@@ -27,6 +27,10 @@ def read_model(path):
     try:
         # check if file exists
         open(path, "r")
+
+        # Default interface
+        cobra.core.model.configuration.solver = 'glpk'
+
         # read submit
         if path[-4:] == ".xml":
             cobra_model = cobra.io.read_sbml_model(path)
@@ -40,6 +44,12 @@ def read_model(path):
         raise FileNotFoundError("File not found: '{}'".format(path))
 
     return cobra_model
+
+def read_model_url(model_string):
+    # Default interface
+    cobra.core.model.configuration.solver = 'glpk'
+
+    return cobra.io.read_sbml_model(model_string)
 
 
 def compute_chokepoints(mdoel_path, exclude_dead_reations=True):
@@ -117,3 +127,21 @@ def fva_fluxes(cobra_model, fva_solution):
         i = i + 1
 
     return result
+
+
+def ordered_reactions_list(cobra_model):
+    reactions_list = sorted([r.id for r in cobra_model.reactions])
+    biomass = _get_biomass_reaction(cobra_model)
+    if biomass is not None and biomass.id in reactions_list:
+        reactions_list.remove(biomass.id)
+        # move it to the top
+        reactions_list = [biomass.id] + reactions_list
+    return reactions_list
+
+
+def _get_biomass_reaction(cobra_model):
+    # NOTE: We dont expect to have more than one objective reaction
+    try:
+        return list(cobra.util.solver.linear_reaction_coefficients(cobra_model).keys())[0]
+    except Exception:
+        return None

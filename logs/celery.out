@@ -1,0 +1,32 @@
+[2022-01-16 12:12:51,984: INFO/MainProcess] Connected to redis://localhost:6379//
+[2022-01-16 12:12:51,990: INFO/MainProcess] mingle: searching for neighbors
+[2022-01-16 12:12:53,004: INFO/MainProcess] mingle: all alone
+[2022-01-16 12:12:53,036: INFO/MainProcess] celery@alex-GF65-Thin-9SEXR ready.
+
+worker: Hitting Ctrl+C again will terminate all running tasks!
+
+worker: Warm shutdown (MainProcess)
+
+worker: Cold shutdown (MainProcess)
+ 
+ -------------- celery@alex-GF65-Thin-9SEXR v4.4.7 (cliffs)
+--- ***** ----- 
+-- ******* ---- Linux-5.4.0-94-generic-x86_64-with-Ubuntu-18.04-bionic 2022-01-16 12:12:51
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         __main__:0x7fcbddfb6d50
+- ** ---------- .> transport:   redis://localhost:6379//
+- ** ---------- .> results:     redis://localhost:6379/
+- *** --- * --- .> concurrency: 1 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . src.restapi.tasks.tasks.compute_chokepoints_task
+  . src.restapi.tasks.tasks.compute_sets_report_task
+  . src.restapi.tasks.tasks.task_compute_critical_reactions
+  . src.restapi.tasks.tasks.task_compute_growth_dependent_reactions
+
