@@ -21,6 +21,7 @@ import os
 import logging
 from urllib.request import urlopen
 import requests
+import codecs
 
 from cobra.io.sbml import CobraSBMLError
 from flask import Blueprint, jsonify, current_app, request
@@ -109,7 +110,7 @@ def submit_model_url():
 
     # The model is checked first to check its a valid model.
     file = requests.get(form.model_url.data)
-    model_string = file.text
+    model_string = str(file.text)
 
     try:
         LOGGER.info(f"Reading model from URL ")
@@ -125,8 +126,9 @@ def submit_model_url():
     LOGGER.info(f"Saving model to: {filename}")
 
     # Save file data to local copy
-    with open(path, "w") as text_file:
+    with codecs.open(path, "w", "utf-8") as text_file:
         text_file.write(model_string)
+        text_file.close()
 
     model_service.insert(model_uuid, filename)
 
