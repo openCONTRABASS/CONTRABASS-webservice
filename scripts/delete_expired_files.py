@@ -11,6 +11,7 @@ from datetime import datetime
 
 PATH_1 = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/static"
 PATH_2 = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/files"
+ZIP_PATH = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/backup"
 LOG_FILE = str(pathlib.Path(__file__).parent.resolve()) + "/logs/deleted_log.log"
 MAX_MINUTES = 1410
 
@@ -47,8 +48,6 @@ def remove_expired(folder_path):
         current = time.time()
         file_creation_minutes = int(round((current - creation_date(path)) / 60))
 
-        print(file_creation_minutes)
-
         _, file_extension = os.path.splitext(path)
 
         if file_creation_minutes > MAX_MINUTES and file_extension in FILE_EXTENSIONS \
@@ -58,7 +57,14 @@ def remove_expired(folder_path):
 
             current_date = datetime.fromtimestamp(current)
             logging.info("Removed file: '" + f + "' on " + str(current_date))
+    
+
+def compress_folder(folder, zip_folder):
+    os.system('tar -zcvf ' + zip_folder + '/$(date +%s).tar.gz ' + folder)
+    
 
 logging.info("Executing at: " + str(datetime.fromtimestamp(time.time())))
 remove_expired(PATH_1)
+compress_folder(PATH_2, ZIP_PATH)
 remove_expired(PATH_2)
+
