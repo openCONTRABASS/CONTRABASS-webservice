@@ -17,5 +17,7 @@
 """
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.pool import QueuePool
 
-db = SQLAlchemy()
+# https://stackoverflow.com/questions/58659316/pymysql-err-operationalerror-2013-lost-connection-to-mysql-server-during-que
+db = SQLAlchemy(engine_options={"pool_size": 10, "poolclass":QueuePool, "pool_pre_ping":True})

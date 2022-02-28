@@ -15,7 +15,7 @@ ZIP_PATH = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/backu
 LOG_FILE = str(pathlib.Path(__file__).parent.resolve()) + "/logs/deleted_log.log"
 MAX_MINUTES = 1410
 
-FILE_EXTENSIONS = ['.xml', '.html', '.xls', '.ods', '.xlsx']
+FILE_EXTENSIONS = ['.xml', '.html', '.xls', '.ods', '.xlsx', '.json']
 
 logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG)
 

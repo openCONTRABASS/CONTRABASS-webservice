@@ -6,7 +6,5 @@ crontab -e
 
 Executed every two hours:
 ```
-* */2 * * * python3 delete_expired_files.py
+0 0 * * * python3 /home/a718123/CONTRABASS-webservice/scripts/delete_expired_files.py
 ```
-
-
