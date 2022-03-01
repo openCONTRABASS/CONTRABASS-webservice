@@ -10,7 +10,7 @@ Flask-SocketIO==5.1.1
 flasgger
 Flask-SQLAlchemy
 importlib_resources
-Flask-WTF
+Flask-WTF==0.14.3
 flower
 pymysql
 depinfo

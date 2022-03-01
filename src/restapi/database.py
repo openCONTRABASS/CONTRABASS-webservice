@@ -20,4 +20,5 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.pool import QueuePool
 
 # https://stackoverflow.com/questions/58659316/pymysql-err-operationalerror-2013-lost-connection-to-mysql-server-during-que
-db = SQLAlchemy(engine_options={"pool_size": 10, "poolclass":QueuePool, "pool_pre_ping":True})
+# https://docs.sqlalchemy.org/en/13/core/pooling.html#setting-pool-recycle
+db = SQLAlchemy(engine_options={"pool_size": 10, "poolclass":QueuePool, "pool_pre_ping":True, "pool_recycle": 3600})
