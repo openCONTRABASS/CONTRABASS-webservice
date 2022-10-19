@@ -14,7 +14,7 @@ importlib_resources
 Flask-WTF==0.14.3
 flower
 pymysql
-depinfo
+depinfo==1.7.0
 python-dotenv
 python-engineio==4.2.1
 python-socketio==5.4.0
