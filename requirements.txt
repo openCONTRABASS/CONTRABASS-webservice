@@ -22,3 +22,4 @@ python-socketio==5.4.0
 future
 requests
 contrabass
+importlib-metadata==4.13.0
