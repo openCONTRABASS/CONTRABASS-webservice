@@ -1,4 +1,4 @@
-Flask
+Flask==1.1.2
 redis
 celery
 Werkzeug>=2.0
@@ -23,3 +23,4 @@ future
 requests
 contrabass
 importlib-metadata==4.13.0
+itsdangerous==2.0.1
