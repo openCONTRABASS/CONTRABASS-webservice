@@ -2,9 +2,14 @@
 .env
 files/
 static/
+backup/
+logs/
 contrabass-env/
 supervisor/pro
 supervisor/dev/logs
+
+
+.ipynb_checkpoints
 
 # IDE
 .idea

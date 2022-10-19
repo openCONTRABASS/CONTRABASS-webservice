@@ -9,13 +9,15 @@ import logging
 import pathlib
 from datetime import datetime
 
+MAX_MINUTES_MODEL_FILE = 1410 # one day
+MAX_MINUTES_ZIP_FILE = 10080  # one week
+
 PATH_1 = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/static"
 PATH_2 = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/files"
 ZIP_PATH = str(pathlib.Path(__file__).parent.resolve()) + "/../src/restapi/backup"
 LOG_FILE = str(pathlib.Path(__file__).parent.resolve()) + "/logs/deleted_log.log"
-MAX_MINUTES = 1410
 
-FILE_EXTENSIONS = ['.xml', '.html', '.xls', '.ods', '.xlsx', '.json']
+FILE_EXTENSIONS = ['.xml', '.html', '.xls', '.ods', '.xlsx', '.json', '.tar.gz']
 
 logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG)
 
@@ -37,7 +39,7 @@ def creation_date(path_to_file):
             return stat.st_mtime
 
 
-def remove_expired(folder_path):
+def remove_expired(folder_path, max_minutes):
 
     files = [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
     for f in files:
@@ -50,10 +52,10 @@ def remove_expired(folder_path):
 
         _, file_extension = os.path.splitext(path)
 
-        if file_creation_minutes > MAX_MINUTES and file_extension in FILE_EXTENSIONS \
+        if file_creation_minutes > max_minutes and file_extension in FILE_EXTENSIONS \
         and "index" not in path:
             
-            #os.remove(path)
+            os.remove(path)
 
             current_date = datetime.fromtimestamp(current)
             logging.info("Removed file: '" + f + "' on " + str(current_date))
@@ -64,7 +66,8 @@ def compress_folder(folder, zip_folder):
     
 
 logging.info("Executing at: " + str(datetime.fromtimestamp(time.time())))
-remove_expired(PATH_1)
+remove_expired(PATH_1, MAX_MINUTES_MODEL_FILE)
 compress_folder(PATH_2, ZIP_PATH)
-remove_expired(PATH_2)
+remove_expired(PATH_2, MAX_MINUTES_MODEL_FILE)
+remove_expired(ZIP_PATH, MAX_MINUTES_ZIP_FILE)
 
